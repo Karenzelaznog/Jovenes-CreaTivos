@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SKINCARY — Skincare simple para tu piel real</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --plum: #5B3E7D;
+    --plum-deep: #3E2A57;
+    --lavender: #A98FCB;
+    --lilac-bg: #F6F1FC;
+    --blush: #F4D6E4;
+    --honey: #E7B579;
+    --white: #FFFFFF;
+    --ink: #3A2A4D;
+    --ink-soft: #6E5C86;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Poppins',sans-serif;
+    background:var(--lilac-bg);
+    color:var(--ink);
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces',serif;
+    color:var(--plum-deep);
+    font-weight:600;
+  }
+  a{text-decoration:none;color:inherit;}
+  img,svg{display:block;max-width:100%;}
+
+  /* ---------- NAV ---------- */
+  nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 6vw;
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(246,241,252,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(91,62,125,0.08);
+  }
+  .logo-wrap{display:flex;align-items:center;gap:10px;}
+  .logo-wrap svg{width:34px;height:34px;}
+  .wordmark{font-family:'Fraunces',serif;font-weight:600;font-size:1.3rem;letter-spacing:0.02em;color:var(--plum-deep);}
+  .nav-links{display:flex;gap:34px;font-size:0.92rem;color:var(--ink-soft);font-weight:500;}
+  .nav-links a{transition:color .2s;}
+  .nav-links a:hover{color:var(--plum);}
+  .nav-cta{
+    background:var(--plum);
+    color:var(--white);
+    padding:10px 22px;
+    border-radius:999px;
+    font-size:0.88rem;
+    font-weight:600;
+    transition:background .2s, transform .2s;
+  }
+  .nav-cta:hover{background:var(--plum-deep);transform:translateY(-1px);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    display:grid;
+    grid-template-columns:1.05fr 0.95fr;
+    align-items:center;
+    gap:40px;
+    padding:70px 6vw 100px;
+    overflow:hidden;
+  }
+  .blob{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(2px);
+    opacity:0.55;
+    animation:float 9s ease-in-out infinite;
+  }
+  .blob1{width:420px;height:420px;background:radial-gradient(circle at 30% 30%, #D9C4EF, #B79FD6 70%);top:-140px;right:2vw;animation-delay:0s;}
+  .blob2{width:220px;height:220px;background:radial-gradient(circle at 30% 30%, #F7E2ED, #F3D3E0 70%);bottom:-60px;right:22vw;animation-delay:2s;}
+  @keyframes float{
+    0%,100%{transform:translateY(0px) scale(1);}
+    50%{transform:translateY(-22px) scale(1.03);}
+  }
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:0.78rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--plum);
+    background:var(--white);
+    padding:8px 16px;
+    border-radius:999px;
+    font-weight:600;
+    box-shadow:0 2px 14px rgba(91,62,125,0.08);
+    margin-bottom:26px;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--honey);}
+  .hero h1{
+    font-size:clamp(2.4rem, 4.2vw, 3.6rem);
+    line-height:1.08;
+    margin-bottom:22px;
+    max-width:11ch;
+  }
+  .hero h1 em{
+    font-style:italic;
+    color:var(--plum);
+  }
+  .hero p{
+    font-size:1.05rem;
+    color:var(--ink-soft);
+    max-width:42ch;
+    margin-bottom:34px;
+    line-height:1.6;
+  }
+  .hero-ctas{display:flex;gap:16px;flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--plum);
+    color:var(--white);
+    padding:15px 30px;
+    border-radius:999px;
+    font-weight:600;
+    font-size:0.95rem;
+    transition:background .2s, transform .2s;
+    box-shadow:0 8px 24px rgba(91,62,125,0.25);
+  }
+  .btn-primary:hover{background:var(--plum-deep);transform:translateY(-2px);}
+  .btn-ghost{
+    border:1.5px solid var(--plum);
+    color:var(--plum);
+    padding:14px 28px;
+    border-radius:999px;
+    font-weight:600;
+    font-size:0.95rem;
+    transition:background .2s, color .2s;
+  }
+  .btn-ghost:hover{background:var(--plum);color:var(--white);}
+
+  .hero-visual{position:relative;z-index:2;display:flex;justify-content:center;}
+
+  /* ---------- MARQUEE ---------- */
+  .marquee-wrap{
+    border-top:1px solid rgba(91,62,125,0.12);
+    border-bottom:1px solid rgba(91,62,125,0.12);
+    background:var(--white);
+    padding:16px 0;
+    overflow:hidden;
+    white-space:nowrap;
+  }
+  .marquee{
+    display:inline-flex;
+    gap:60px;
+    animation:scroll 22s linear infinite;
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-size:1rem;
+    color:var(--ink-soft);
+  }
+  .marquee span{display:flex;align-items:center;gap:60px;}
+  @keyframes scroll{
+    0%{transform:translateX(0);}
+    100%{transform:translateX(-50%);}
+  }
+
+  /* ---------- VALUES ---------- */
+  .values{
+    padding:100px 6vw;
+    display:grid;
+    grid-template-columns:0.7fr 1fr 1fr 1fr;
+    gap:40px;
+    align-items:start;
+  }
+  .values h2{font-size:clamp(1.8rem,2.6vw,2.4rem);line-height:1.15;}
+  .value-card{
+    padding:26px 0 0;
+    border-top:1px solid rgba(91,62,125,0.18);
+  }
+  .value-card .num{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    color:var(--lavender);
+    font-size:0.95rem;
+    margin-bottom:14px;
+    display:block;
+  }
+  .value-card h3{font-size:1.15rem;margin-bottom:10px;}
+  .value-card p{font-size:0.92rem;color:var(--ink-soft);line-height:1.6;}
+
+  /* ---------- PRODUCTS ---------- */
+  .products{
+    padding:60px 6vw 120px;
+  }
+  .products-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:50px;
+    flex-wrap:wrap;
+    gap:20px;
+  }
+  .products-head h2{font-size:clamp(2rem,3vw,2.7rem);max-width:16ch;}
+  .products-head p{color:var(--ink-soft);max-width:34ch;font-size:0.95rem;line-height:1.6;}
+  .product-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:28px;
+  }
+  .product-card{
+    background:var(--white);
+    border-radius:26px;
+    padding:34px 28px 30px;
+    display:flex;
+    flex-direction:column;
+    transition:transform .35s ease, box-shadow .35s ease;
+    box-shadow:0 4px 20px rgba(91,62,125,0.06);
+  }
+  .product-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(91,62,125,0.16);}
+  .product-visual{
+    border-radius:18px;
+    padding:26px 0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:24px;
+  }
+  .pv-1{background:linear-gradient(160deg,#F0E6FA,#E1D0F2);}
+  .pv-2{background:linear-gradient(160deg,#FBEAF1,#F4D6E4);}
+  .pv-3{background:linear-gradient(160deg,#FDF3E6,#F3E0C4);}
+  .product-visual svg{width:120px;height:150px;}
+  .product-tag{
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--plum);
+    font-weight:600;
+    margin-bottom:8px;
+  }
+  .product-card h3{font-size:1.3rem;margin-bottom:10px;}
+  .product-card p{font-size:0.9rem;color:var(--ink-soft);line-height:1.6;margin-bottom:22px;flex-grow:1;}
+  .product-foot{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-top:1px solid rgba(91,62,125,0.1);
+    padding-top:18px;
+  }
+  .price{font-family:'Fraunces',serif;font-size:1.15rem;color:var(--plum-deep);font-weight:600;}
+  .add-btn{
+    background:var(--lilac-bg);
+    color:var(--plum);
+    font-size:0.82rem;
+    font-weight:600;
+    padding:9px 18px;
+    border-radius:999px;
+    transition:background .2s,color .2s;
+  }
+  .add-btn:hover{background:var(--plum);color:var(--white);}
+
+  /* ---------- ROUTINE STRIP ---------- */
+  .routine{
+    margin:0 6vw 120px;
+    background:linear-gradient(120deg, var(--plum) 0%, #7A5CA3 60%, var(--lavender) 100%);
+    border-radius:32px;
+    padding:70px 60px;
+    color:var(--white);
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+    align-items:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .routine::before{
+    content:"";
+    position:absolute;
+    width:340px;height:340px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.08);
+    top:-120px;left:60%;
+  }
+  .routine h2{color:var(--white);font-size:clamp(1.8rem,2.6vw,2.3rem);margin-bottom:18px;max-width:14ch;}
+  .routine p{color:rgba(255,255,255,0.85);font-size:0.95rem;line-height:1.7;max-width:38ch;margin-bottom:26px;}
+  .routine-steps{display:flex;flex-direction:column;gap:18px;position:relative;z-index:2;}
+  .rstep{display:flex;gap:16px;align-items:flex-start;}
+  .rstep .rn{
+    font-family:'Fraunces',serif;font-style:italic;
+    font-size:1.1rem;
+    width:32px;height:32px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.16);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .rstep h4{font-size:1rem;margin-bottom:4px;font-weight:600;font-family:'Poppins',sans-serif;}
+  .rstep p{font-size:0.85rem;color:rgba(255,255,255,0.75);margin:0;max-width:none;}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:60px 6vw 40px;
+    border-top:1px solid rgba(91,62,125,0.12);
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    flex-wrap:wrap;
+    gap:30px;
+  }
+  .footer-left .logo-wrap{margin-bottom:14px;}
+  .footer-left p{font-size:0.85rem;color:var(--ink-soft);max-width:32ch;line-height:1.6;}
+  .footer-links{display:flex;gap:60px;}
+  .footer-col h5{font-size:0.78rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--plum);margin-bottom:14px;}
+  .footer-col a{display:block;font-size:0.9rem;color:var(--ink-soft);margin-bottom:10px;transition:color .2s;}
+  .footer-col a:hover{color:var(--plum);}
+  .footer-bottom{
+    text-align:center;
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    margin-top:50px;
+    opacity:0.7;
+  }
+
+  /* ---------- REVEAL ---------- */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:900px){
+    .hero{grid-template-columns:1fr;padding-top:40px;}
+    .hero-visual{order:-1;}
+    .values{grid-template-columns:1fr;}
+    .product-grid{grid-template-columns:1fr;}
+    .routine{grid-template-columns:1fr;padding:44px 28px;}
+    .nav-links{display:none;}
+    footer{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo-wrap">
+    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 4C20 4 8 17 8 25C8 31.6274 13.3726 37 20 37C26.6274 37 32 31.6274 32 25C32 17 20 4 20 4Z" fill="var(--plum)"/>
+      <path d="M20 12C20 12 13 20.5 13 26C13 30.4183 16.134 34 20 34" stroke="var(--white)" stroke-width="1.6" stroke-linecap="round" opacity="0.55"/>
+    </svg>
+    <span class="wordmark">SKINCARY</span>
+  </div>
+  <div class="nav-links">
+    <a href="#productos">Productos</a>
+    <a href="#rutina">Rutina</a>
+    <a href="#valores">Nosotras</a>
+  </div>
+  <a href="#productos" class="nav-cta">Ver productos</a>
+</nav>
+
+<section class="hero">
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="hero-text">
+    <span class="eyebrow"><span class="dot"></span>Hecho en Colombia</span>
+    <h1>Skincare simple para tu <em>piel real</em></h1>
+    <p>Cuidar tu piel no debería ser complicado ni costoso. Rutinas cortas, ingredientes que sí funcionan, pensadas para clima húmedo, sol fuerte y vida real.</p>
+    <div class="hero-ctas">
+      <a href="#productos" class="btn-primary">Explorar productos</a>
+      <a href="#rutina" class="btn-ghost">Ver rutina en 3 pasos</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <svg viewBox="0 0 320 380" width="300" height="360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="heroBottle" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#C9AEE8"/>
+          <stop offset="100%" stop-color="#7A5CA3"/>
+        </linearGradient>
+        <linearGradient id="heroCap" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#EFC895"/>
+          <stop offset="100%" stop-color="#DDA55F"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="160" cy="350" rx="120" ry="18" fill="#5B3E7D" opacity="0.08"/>
+      <rect x="90" y="120" width="140" height="210" rx="30" fill="url(#heroBottle)"/>
+      <rect x="90" y="120" width="140" height="210" rx="30" fill="white" opacity="0.06"/>
+      <rect x="110" y="70" width="100" height="60" rx="14" fill="url(#heroCap)"/>
+      <rect x="122" y="46" width="76" height="34" rx="10" fill="#DDA55F"/>
+      <circle cx="160" cy="220" r="46" fill="white" opacity="0.14"/>
+      <path d="M160 195 C170 210 178 220 178 232 C178 244 170 252 160 252 C150 252 142 244 142 232 C142 220 150 210 160 195Z" fill="white" opacity="0.85"/>
+      <text x="160" y="290" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="15" fill="white" opacity="0.9">SKINCARY</text>
+    </svg>
+  </div>
+</section>
+
+<div class="marquee-wrap">
+  <div class="marquee">
+    <span>Piel latina · Clima húmedo · Sol fuerte · Vida real · Piel latina · Clima húmedo · Sol fuerte · Vida real ·</span>
+    <span>Piel latina · Clima húmedo · Sol fuerte · Vida real · Piel latina · Clima húmedo · Sol fuerte · Vida real ·</span>
+  </div>
+</div>
+
+<section class="values reveal" id="valores">
+  <h2>Nacimos de una idea simple</h2>
+  <div class="value-card">
+    <span class="num">Origen</span>
+    <h3>Sin complicaciones</h3>
+    <p>Cuidar tu piel no tiene que ser un proceso de diez pasos ni una inversión enorme.</p>
+  </div>
+  <div class="value-card">
+    <span class="num">Ingredientes</span>
+    <h3>Fórmulas que funcionan</h3>
+    <p>Seleccionamos ingredientes naturales con resultados comprobados, sin relleno.</p>
+  </div>
+  <div class="value-card">
+    <span class="num">Contexto</span>
+    <h3>Pensado para ti</h3>
+    <p>Cada producto está formulado para piel latina, clima húmedo y sol fuerte.</p>
+  </div>
+</section>
+
+<section class="products reveal" id="productos">
+  <div class="products-head">
+    <h2>Tres esenciales, ninguno de más</h2>
+    <p>No creemos en rutinas de diez pasos. Estos tres productos cubren lo esencial para una piel sana todos los días.</p>
+  </div>
+  <div class="product-grid">
+
+    <div class="product-card">
+      <div class="product-visual pv-1">
+        <svg viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="b1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#B79FD6"/>
+              <stop offset="100%" stop-color="#5B3E7D"/>
+            </linearGradient>
+          </defs>
+          <rect x="20" y="42" width="60" height="80" rx="14" fill="url(#b1)"/>
+          <rect x="32" y="20" width="36" height="26" rx="8" fill="#E7B579"/>
+          <rect x="38" y="8" width="24" height="14" rx="5" fill="#DDA55F"/>
+          <circle cx="50" cy="80" r="16" fill="white" opacity="0.18"/>
+          <text x="50" y="105" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="7" fill="white" opacity="0.9">SKINCARY</text>
+        </svg>
+      </div>
+      <span class="product-tag">Protección</span>
+      <h3>Escudo Diario SPF 50</h3>
+      <p>Protector solar ligero, sin rastro blanco, con acabado natural para uso diario bajo sol fuerte.</p>
+      <div class="product-foot">
+        <span class="price">$68.000</span>
+        <a href="#" class="add-btn">Añadir</a>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-visual pv-2">
+        <svg viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="b2" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#F4D6E4"/>
+              <stop offset="100%" stop-color="#C98CA8"/>
+            </linearGradient>
+          </defs>
+          <path d="M30 50 Q30 40 40 40 L60 40 Q70 40 70 50 L70 110 Q70 122 58 122 L42 122 Q30 122 30 110 Z" fill="url(#b2)"/>
+          <rect x="38" y="22" width="24" height="22" rx="7" fill="#7A5CA3"/>
+          <circle cx="50" cy="80" r="14" fill="white" opacity="0.2"/>
+          <text x="50" y="105" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="7" fill="white" opacity="0.9">SKINCARY</text>
+        </svg>
+      </div>
+      <span class="product-tag">Limpieza</span>
+      <h3>Espuma Suave Limpiadora</h3>
+      <p>Limpiador diario de espuma cremosa que respeta la barrera de la piel, incluso en clima húmedo.</p>
+      <div class="product-foot">
+        <span class="price">$52.000</span>
+        <a href="#" class="add-btn">Añadir</a>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-visual pv-3">
+        <svg viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="b3" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#F3E0C4"/>
+              <stop offset="100%" stop-color="#DDA55F"/>
+            </linearGradient>
+          </defs>
+          <rect x="24" y="34" width="52" height="88" rx="26" fill="url(#b3)"/>
+          <rect x="24" y="34" width="52" height="88" rx="26" fill="#5B3E7D" opacity="0.08"/>
+          <rect x="36" y="16" width="28" height="22" rx="8" fill="#5B3E7D"/>
+          <circle cx="50" cy="76" r="15" fill="white" opacity="0.25"/>
+          <text x="50" y="105" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="7" fill="#5B3E7D">SKINCARY</text>
+        </svg>
+      </div>
+      <span class="product-tag">Hidratación</span>
+      <h3>Hidratante Ligero 24H</h3>
+      <p>Gel-crema de absorción rápida que hidrata sin sensación pesada, ideal para todo tipo de piel.</p>
+      <div class="product-foot">
+        <span class="price">$59.000</span>
+        <a href="#" class="add-btn">Añadir</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="routine reveal" id="rutina">
+  <div class="routine-text">
+    <h2>Tu rutina en tres pasos</h2>
+    <p>No necesitas diez productos. Con estos tres, en menos de cinco minutos, tu piel queda limpia, protegida e hidratada.</p>
+    <a href="#productos" class="btn-primary" style="background:white;color:var(--plum);">Armar mi rutina</a>
+  </div>
+  <div class="routine-steps">
+    <div class="rstep">
+      <span class="rn">1</span>
+      <div><h4>Limpia</h4><p>Espuma Suave Limpiadora, mañana y noche.</p></div>
+    </div>
+    <div class="rstep">
+      <span class="rn">2</span>
+      <div><h4>Hidrata</h4><p>Hidratante Ligero 24H sobre piel húmeda.</p></div>
+    </div>
+    <div class="rstep">
+      <span class="rn">3</span>
+      <div><h4>Protege</h4><p>Escudo Diario SPF 50, todas las mañanas.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-left">
+    <div class="logo-wrap">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 4C20 4 8 17 8 25C8 31.6274 13.3726 37 20 37C26.6274 37 32 31.6274 32 25C32 17 20 4 20 4Z" fill="var(--plum)"/>
+      </svg>
+      <span class="wordmark">SKINCARY</span>
+    </div>
+    <p>Tienda de skincare creada en Colombia. Rutinas simples, ingredientes que funcionan, para tu piel real.</p>
+  </div>
+  <div class="footer-links">
+    <div class="footer-col">
+      <h5>Tienda</h5>
+      <a href="#productos">Productos</a>
+      <a href="#rutina">Rutina</a>
+    </div>
+    <div class="footer-col">
+      <h5>Marca</h5>
+      <a href="#valores">Nosotras</a>
+      <a href="#">Ingredientes</a>
+    </div>
+  </div>
+</footer>
+<div class="footer-bottom">© 2026 SKINCARY. Hecho con cariño en Colombia.</div>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold:0.15});
+  revealEls.forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
