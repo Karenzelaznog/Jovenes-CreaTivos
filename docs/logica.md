@@ -1,16 +1,26 @@
-# LOGICA DE NEGOCIO: ECODRONES 
-## DESCRIPCIÓN 
-Imagina una flota de drones autónomos sobrevolando los bosques deforestados. Equipados con IA y camaras multiespectrales, estos dornes identifican co precisión las zonas más degranadas, analizan el tipo del suelo, la humedad, la pendiete y la biodiverisdad nativa de cada hectárea. una vez mapeado el terreno, no solo detectan: actúan. Disparan capsulas biodegradables, cargadas con semillas de árboles nativos, nutrientes y micorrizas. cada cápsula esta diseñadapara proteger a la semilla, retener el agua y darle mayor porcentaje de germinacion posible, incluso en suelos dificiles. 
+# LOGICA DE NEGOCIO: SKINCARY
+
+## DESCRIPCION
+¿Qué será SkinKary?
+SkinKary es una tienda online de skincare creada en Colombia, enfocada
+en rutinas simples y efectivas para todo tipo de piel. Nacemos de la
+idea de que cuidar tu piel no tiene que ser complicado ni costoso.
+Encuentras productos seleccionados con ingredientes naturales y
+fórmulas que sí funcionan. Cada producto está pensado para piel
+latina, clima húmedo, sol fuerte y vida real.
+
 ## FLUJO PRINCIPAL
-1. El usuario ingresa [Coordenadas del área deforestada o mapa de la zona objetivo] 
-2. El sistema verifica si [El área cumple condiciones aptas: suelo, clima y tipo devegetación nativa]
-3. si sí: [El drone mapea la zona, calcula ´puntos óptimos y lanza cápsulas con semillas]
-4. Si no: [El sistema descarta la zona y sugirere un área alternativa para deforestar]
+1. El usuario ingresa a la tienda y explora el catálogo [busca por
+   categoría: protección, limpieza o hidratación]
+2. El sistema verifica si el producto es apto para las necesidades
+   de piel del usuario [tipo de piel, objetivo de cuidado]
+3. Si sí: [el usuario agrega el producto al carrito, el sistema
+   calcula el total y confirma disponibilidad de stock]
+4. Si no: [el sistema descarta la sugerencia y recomienda un
+   producto alternativo según la necesidad indicada]
 
 ## PSEUDOCODIGO
-si [zona es apta para reforestar]
-    Mostrar [inicia + misión:mapeo + lanzamiento de cápsulas con semillas] 
+si [producto es apto para la necesidad de piel]
+    Mostrar [detalle del producto + botón agregar al carrito]
 Si no
-    Mostrar[zona no apta. seleccionar nueva área]
-
-## SIMULACIÓN EN SCRATCH []
+    Mostrar [producto alternativo recomendado]
