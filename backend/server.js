@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
-
+import productosRouter from './routes/productos.js'
+import contactoRouter from './routes/contacto.js'
 const app = express()
 const PORT = process.env.PORT || 3000
 
@@ -14,6 +15,8 @@ app.get('/api/salud', (req, res) => {
   res.json({ ok: true, mensaje: 'API de SKINCARY funcionando' })
 })
 
+app.use('/api/productos', productosRouter)
+app.use('/api/contacto', contactoRouter)
 app.listen(PORT, () => {
   console.log(`Servidor en http://localhost:${PORT}`)
 })
