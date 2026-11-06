@@ -1,6 +1,6 @@
 import { DatabaseSync } from 'node:sqlite'
 
-const db = new DatabaseSync('skincary.sqlite')
+export const db = new DatabaseSync('skincary.sqlite')
 
 // tipo: 'skincare' o 'accesorio' | linea: la versión del producto
 // coleccion: 'skincary' o 'cinnamoroll'

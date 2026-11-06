@@ -1,0 +1,35 @@
+.admin{min-height:100vh;background:#f4faff}
+.admin-top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.6rem;
+  padding:.8rem 1rem;background:#fff;box-shadow:0 6px 20px rgba(110,160,210,.18)}
+.admin-top div{display:flex;gap:.5rem;flex-wrap:wrap}
+.admin-top a.btn{text-decoration:none;display:inline-flex;align-items:center}
+.admin-tabs{display:flex;gap:.5rem;padding:1rem 1rem 0;max-width:1100px;margin:0 auto;flex-wrap:wrap}
+.admin-tabs button{border:0;border-radius:999px;padding:.7rem 1.2rem;background:#e6f3fd;color:#2b4a6b;
+  cursor:pointer;font-size:1rem;min-height:44px}
+.admin-tabs .activo{background:#8ec5f2;color:#fff;font-weight:700}
+.admin-main{max-width:1100px;margin:0 auto;padding:1rem}
+
+.admin-login{min-height:100vh;display:grid;place-items:center;padding:1rem;
+  background:linear-gradient(180deg,#cfe6fb,#eaf5ff)}
+.admin-login form{background:#fff;border-radius:24px;padding:1.6rem;width:min(380px,100%);
+  display:grid;gap:.8rem;box-shadow:0 6px 20px rgba(110,160,210,.25)}
+.admin-login h2{text-align:center;margin:0}
+.admin-login label,.admin-form label{display:grid;gap:.3rem;font-weight:600;font-size:.9rem}
+.admin-login input,.admin-form input,.admin-form select,.admin-form textarea,.admin-busca{
+  padding:.7rem 1rem;border:1px solid #cfe6fb;border-radius:14px;font:inherit;min-height:44px;background:#fff}
+.volver{text-align:center;color:#3b82c4;font-size:.9rem}
+
+.admin-form{background:#fff;border-radius:20px;padding:1.2rem;display:grid;gap:.8rem;
+  box-shadow:0 6px 20px rgba(110,160,210,.18);margin-bottom:1rem}
+.admin-campos{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.8rem}
+.admin-botones{display:flex;gap:.6rem;flex-wrap:wrap}
+.admin-busca{width:100%;margin-bottom:.8rem}
+
+.tabla-wrap{overflow-x:auto;background:#fff;border-radius:16px;box-shadow:0 6px 20px rgba(110,160,210,.18)}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+th,td{padding:.7rem .8rem;text-align:left;border-bottom:1px solid #e6f3fd;vertical-align:top}
+th{background:#e6f3fd;white-space:nowrap}
+.acciones{display:flex;gap:.4rem;flex-wrap:wrap}
+.chip{border:1px solid #cfe6fb;background:#f4faff;border-radius:999px;padding:.4rem .8rem;cursor:pointer;
+  font-size:.82rem;min-height:36px}
+.chip.peligro{color:#c0392b;background:#fff}
