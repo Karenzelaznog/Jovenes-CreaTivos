@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000
 
 // Permite que el frontend (otro puerto) hable con esta API y envíe cookies
 app.use(cors({
-  origin: (origin, cb) => cb(null, !origin || /^http:\/\/localhost:\d+$/.test(origin)),
+  origin: (origin, cb) => cb(null, !origin || /^http:\/\/(?:localhost|127\.0\.0\.1):\d+$/.test(origin)),
   credentials: true,
 }))
 app.use(express.json())

@@ -1,7 +1,6 @@
 import { useState } from 'react'
+import { API_URL } from '../config.js'
 import './Contacto.css'
-
-const API = import.meta.env.VITE_API_URL
 
 export default function Contacto() {
   const [datos, setDatos] = useState({ nombre: '', email: '', mensaje: '' })
@@ -17,7 +16,7 @@ export default function Contacto() {
     setErrores({})
 
     try {
-      const res = await fetch(`${API}/api/contacto`, {
+      const res = await fetch(`${API_URL}/api/contacto`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(datos),

@@ -1,4 +1,4 @@
-// Crea tablas y carga los 40 productos + usuario admin.
+// Crea tablas y carga los 40 productos. Crea un usuario admin si hay credenciales configuradas.
 // Ejecutar desde /backend: node seed.js
 import 'dotenv/config'
 import bcrypt from 'bcryptjs'
@@ -93,13 +93,16 @@ try {
     insertar.run(numero, 'accesorios', null, nombre, precio, descripcion, `/img/accesorio-${numero}.jpg`)
   }
 
-  // Usuario admin: la clave se guarda con hash, nunca en texto plano
-  const hash = bcrypt.hashSync(process.env.ADMIN_PASS, 10)
-  db.prepare('INSERT OR REPLACE INTO usuarios (id, usuario, clave_hash) VALUES (1, ?, ?)')
-    .run(process.env.ADMIN_USER, hash)
+  if (process.env.ADMIN_USER && process.env.ADMIN_PASS) {
+    const hash = bcrypt.hashSync(process.env.ADMIN_PASS, 10)
+    db.prepare('INSERT OR REPLACE INTO usuarios (id, usuario, clave_hash) VALUES (1, ?, ?)')
+      .run(process.env.ADMIN_USER, hash)
+  } else {
+    console.warn('Se omitió crear el usuario admin: configura ADMIN_USER y ADMIN_PASS en .env.')
+  }
 
   db.exec('COMMIT')
-  console.log('Listo: 40 productos y usuario admin creados.')
+  console.log('Listo: 40 productos cargados.')
 } catch (e) {
   db.exec('ROLLBACK')
   console.error('Error en seed:', e)
