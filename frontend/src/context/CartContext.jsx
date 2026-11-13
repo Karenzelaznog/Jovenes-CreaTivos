@@ -1,7 +1,7 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-
-const CartContext = createContext(null)
-export const useCart = () => useContext(CartContext)
+import { useEffect, useMemo, useState } from 'react'
+import { CarritoContexto } from './carritoContexto.js'
+// Atajo: permite seguir importando useCart desde este archivo
+export { useCart } from './useCart.js'
 
 // Carrito global. Se guarda en localStorage para no perderlo al recargar.
 export function CartProvider({ children }) {
@@ -36,8 +36,8 @@ export function CartProvider({ children }) {
   const cantidad = useMemo(() => items.reduce((s, i) => s + i.cantidad, 0), [items])
 
   return (
-    <CartContext.Provider value={{ items, agregar, sumar, restar, quitar, vaciar, total, cantidad }}>
+    <CarritoContexto.Provider value={{ items, agregar, sumar, restar, quitar, vaciar, total, cantidad }}>
       {children}
-    </CartContext.Provider>
+    </CarritoContexto.Provider>
   )
 }

@@ -1,4 +1,9 @@
 import { useContext } from 'react'
-import { CartContext } from './cartContext.js'
+import { CarritoContexto } from './carritoContexto.js'
 
-export const useCart = () => useContext(CartContext)
+// Hook para usar el carrito desde cualquier componente
+export function useCart() {
+  const ctx = useContext(CarritoContexto)
+  if (!ctx) throw new Error('useCart debe usarse dentro de <CartProvider>')
+  return ctx
+}
