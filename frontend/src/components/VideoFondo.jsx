@@ -1,9 +1,17 @@
+// Video decorativo de la portada. Silenciado y en bucle: los navegadores solo
+// permiten reproducirlo solo si tiene muted + playsInline.
 export default function VideoFondo() {
+  const src = import.meta.env.BASE_URL + 'video-fondo.mp4'
   return (
-    <div className="video-fondo" aria-hidden="true">
-      <video autoPlay loop muted playsInline preload="metadata">
-        <source src={`${import.meta.env.BASE_URL}video-fondo.mp4`} type="video/mp4" />
-      </video>
-    </div>
+    <video
+      className="video-fondo"
+      src={src}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      aria-hidden="true"
+    />
   )
 }
