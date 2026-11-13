@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getProductos } from '../api.js'
+import { filtrarCatalogo } from '../data/catalogo.js'
 import ProductoCard from './ProductoCard.jsx'
 
 const RANGOS = [
@@ -36,6 +37,7 @@ export default function Tienda({ filtros, setFiltros }) {
       })
       .catch((e) => {
         if (!activo) return
+        setProductos(filtrarCatalogo(filtros))
         setErrorConsulta({ consulta, mensaje: e.message })
         setConsultaCompletada(consulta)
       })
@@ -74,7 +76,11 @@ export default function Tienda({ filtros, setFiltros }) {
       </div>
 
       {cargando && <p className="estado">Cargando productos…</p>}
-      {error && <p className="estado error">{error}. Verifica que el servidor esté activo.</p>}
+      {error && (
+        <p className="estado error">
+          No hay conexión con el servidor: mostramos el catálogo local. Para comprar, el servidor debe estar activo.
+        </p>
+      )}
       {!cargando && !error && productos.length === 0 && (
         <p className="estado">No encontramos productos con esos filtros.</p>
       )}
