@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
-import { CartProvider, useCart } from './context/CartContext.jsx'
+import VideoFondo from './components/VideoFondo.jsx'
+import Chatbot from './components/Chatbot.jsx'
+import { CartProvider } from './context/CartContext.jsx'
+import { useCart } from './context/useCart.js'
 import Header from './components/Header.jsx'
 import Hero from './components/Hero.jsx'
 import Destacados from './components/Destacados.jsx'
@@ -27,6 +30,7 @@ function Tiendita() {
 
   return (
     <>
+          <VideoFondo />
       <Header abrirCarrito={() => setCarritoAbierto(true)} />
       <main>
         <Hero elegirCategoria={elegirCategoria} />
@@ -62,6 +66,7 @@ export default function App() {
   return (
     <CartProvider>
       <Tiendita />
+            <Chatbot />
     </CartProvider>
   )
 }

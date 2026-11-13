@@ -132,3 +132,18 @@ section{padding:3rem 1rem;max-width:1200px;margin:0 auto;scroll-margin-top:70px}
   .nube{font-size:3rem}
 }
 @media (max-width:380px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Video fijo detrás de toda la página, sin velo */
+html{background:#eaf5ff}
+body{background:transparent}
+.video-fondo{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:.9;z-index:-1;pointer-events:none}
+
+/* Las secciones dejan ver el video; los títulos llevan un brillo suave para leerse bien */
+.hero,.destacados,.tienda,#contacto{background:transparent}
+.destacados h2,.tienda h2{text-shadow:0 1px 8px rgba(255,255,255,.9),0 0 2px rgba(255,255,255,.9)}
+.estado{text-shadow:0 1px 6px rgba(255,255,255,.9)}
+.footer{background:rgba(230,243,253,.85)}
+
+/* Si la persona tiene activada la opción de menos movimiento, se oculta el video */
+@media (prefers-reduced-motion:reduce){.video-fondo{display:none}}
