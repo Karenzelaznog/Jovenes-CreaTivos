@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useCart } from '../context/CartContext.jsx'
+import { useCart } from '../context/useCart.js'
 import { WHATSAPP_NUMERO } from '../config.js'
 import { cop } from '../utils/formato.js'
 

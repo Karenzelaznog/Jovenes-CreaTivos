@@ -1,0 +1,149 @@
+.jescha {
+  position: fixed;
+  z-index: 20;
+  right: 20px;
+  bottom: 20px;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 12px;
+  font-family: 'Poppins', system-ui, sans-serif;
+}
+
+.jescha-abrir {
+  border: 0;
+  border-radius: 999px;
+  padding: 13px 20px;
+  color: #fff;
+  background: var(--azul-profundo, #2f5d8a);
+  box-shadow: 0 5px 18px #2f5d8a40;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.jescha-abrir:hover,
+.jescha-formulario button:hover:not(:disabled) {
+  background: #244b73;
+}
+
+.jescha-ventana {
+  display: flex;
+  flex-direction: column;
+  width: min(360px, calc(100vw - 32px));
+  height: min(480px, calc(100vh - 110px));
+  overflow: hidden;
+  border: 1px solid #cfe6fb;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 8px 32px #244b7330;
+}
+
+.jescha-cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  color: #fff;
+  background: var(--azul-profundo, #2f5d8a);
+}
+
+.jescha-cabecera div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.jescha-cabecera span {
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+.jescha-cabecera button {
+  border: 0;
+  color: inherit;
+  background: transparent;
+  font-size: 26px;
+  cursor: pointer;
+}
+
+.jescha-mensajes {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.jescha-mensaje {
+  max-width: 88%;
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 14px;
+  color: #244b73;
+  background: #eaf6ff;
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.jescha-mensaje.user {
+  align-self: flex-end;
+  color: #fff;
+  background: #5799cf;
+}
+
+.jescha-error {
+  margin: 0;
+  color: #a12e38;
+  font-size: 13px;
+}
+
+.jescha-formulario {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid #e3eef7;
+}
+
+.jescha-formulario input {
+  min-width: 0;
+  flex: 1;
+  border: 1px solid #c9dced;
+  border-radius: 10px;
+  padding: 10px;
+  color: #244b73;
+  font: inherit;
+  font-size: 13px;
+}
+
+.jescha-formulario input:focus-visible,
+.jescha-formulario button:focus-visible,
+.jescha-abrir:focus-visible {
+  outline: 2px solid #5799cf;
+  outline-offset: 2px;
+}
+
+.jescha-formulario button {
+  border: 0;
+  border-radius: 10px;
+  padding: 0 12px;
+  color: #fff;
+  background: var(--azul-profundo, #2f5d8a);
+  font: inherit;
+  cursor: pointer;
+}
+
+.jescha-formulario button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+@media (max-width: 480px) {
+  .jescha {
+    right: 12px;
+    bottom: 12px;
+  }
+}

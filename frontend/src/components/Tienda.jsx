@@ -12,9 +12,12 @@ const RANGOS = [
 
 export default function Tienda({ filtros, setFiltros }) {
   const [productos, setProductos] = useState([])
-  const [cargando, setCargando] = useState(true)
-  const [error, setError] = useState('')
+  const [consultaCompletada, setConsultaCompletada] = useState(null)
+  const [errorConsulta, setErrorConsulta] = useState({ consulta: null, mensaje: '' })
   const [busqueda, setBusqueda] = useState(filtros.q)
+  const consulta = JSON.stringify(filtros)
+  const cargando = consultaCompletada !== consulta
+  const error = errorConsulta.consulta === consulta ? errorConsulta.mensaje : ''
 
   // Espera 300 ms después de escribir para no pedir datos en cada tecla
   useEffect(() => {
@@ -24,14 +27,20 @@ export default function Tienda({ filtros, setFiltros }) {
 
   useEffect(() => {
     let activo = true
-    setCargando(true)
-    setError('')
-    getProductos({ q: filtros.q, categoria: filtros.categoria, coleccion: filtros.coleccion, min: filtros.min, max: filtros.max })
-      .then((d) => activo && setProductos(d))
-      .catch((e) => activo && setError(e.message))
-      .finally(() => activo && setCargando(false))
+    getProductos(filtros)
+      .then((d) => {
+        if (!activo) return
+        setProductos(d)
+        setErrorConsulta({ consulta, mensaje: '' })
+        setConsultaCompletada(consulta)
+      })
+      .catch((e) => {
+        if (!activo) return
+        setErrorConsulta({ consulta, mensaje: e.message })
+        setConsultaCompletada(consulta)
+      })
     return () => { activo = false }
-  }, [filtros])
+  }, [filtros, consulta])
 
   const cambiar = (campo) => (e) => setFiltros((f) => ({ ...f, [campo]: e.target.value }))
 

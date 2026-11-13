@@ -2,11 +2,25 @@ import { Router } from 'express'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import db from '../db.js'
+import requiereAdmin from '../middleware/auth.js'
 
 const router = Router()
 
-// POST /api/auth/login  { usuario, clave }
+// Máximo 10 intentos de login cada 10 minutos por IP (frena adivinar claves)
+const intentos = new Map()
+function bloqueado(ip) {
+  const ahora = Date.now()
+  const lista = (intentos.get(ip) || []).filter((t) => ahora - t < 10 * 60 * 1000)
+  lista.push(ahora)
+  intentos.set(ip, lista)
+  return lista.length > 10
+}
+
+// POST /api/auth/login  { usuario, clave } -> { ok, token }
 router.post('/login', (req, res) => {
+  if (bloqueado(req.ip)) {
+    return res.status(429).json({ error: 'Demasiados intentos. Espera unos minutos.' })
+  }
   const { usuario, clave } = req.body
   const fila = db.prepare('SELECT * FROM usuarios WHERE usuario = ?').get(usuario)
 
@@ -15,28 +29,12 @@ router.post('/login', (req, res) => {
   }
 
   const token = jwt.sign({ id: fila.id }, process.env.JWT_SECRET, { expiresIn: '2h' })
-  res.cookie('token', token, {
-    httpOnly: true,
-    sameSite: 'lax',   // en producción con dominios distintos: 'none' + secure: true
-    secure: false,
-    maxAge: 2 * 60 * 60 * 1000,
-  })
-  res.json({ ok: true })
+  res.json({ ok: true, token })
 })
 
-router.post('/logout', (req, res) => {
-  res.clearCookie('token')
-  res.json({ ok: true })
-})
+router.post('/logout', (req, res) => res.json({ ok: true }))
 
-// GET /api/auth/me -> el frontend lo usa para saber si hay sesión
-router.get('/me', (req, res) => {
-  try {
-    jwt.verify(req.cookies.token, process.env.JWT_SECRET)
-    res.json({ ok: true })
-  } catch {
-    res.status(401).json({ ok: false })
-  }
-})
+// GET /api/auth/me -> el frontend lo usa para saber si la sesión sigue válida
+router.get('/me', requiereAdmin, (req, res) => res.json({ ok: true }))
 
 export default router

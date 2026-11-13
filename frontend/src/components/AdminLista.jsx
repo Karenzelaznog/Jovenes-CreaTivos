@@ -8,7 +8,6 @@ export default function AdminLista({ ruta, vacio }) {
   const [error, setError] = useState('')
 
   useEffect(() => {
-    setCargando(true)
     pedir(ruta)
       .then(setFilas)
       .catch((e) => setError(e.status === 401 ? 'Tu sesión expiró. Recarga e inicia sesión.' : e.message))

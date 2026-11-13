@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { pedir } from '../adminApi.js'
+import { borrarToken, pedir } from '../adminApi.js'
 import AdminLogin from './AdminLogin.jsx'
 import AdminProductos from './AdminProductos.jsx'
 import AdminLista from './AdminLista.jsx'
@@ -15,7 +15,11 @@ export default function Admin() {
   }, [])
 
   const salir = async () => {
-    try { await pedir('/api/auth/logout', { metodo: 'POST' }) } finally { setSesion('no') }
+    try { await pedir('/api/auth/logout', { metodo: 'POST' }) }
+    finally {
+      borrarToken()
+      setSesion('no')
+    }
   }
 
   if (sesion === 'cargando') return <p className="estado">Verificando sesión…</p>

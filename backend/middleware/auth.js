@@ -1,9 +1,11 @@
 import jwt from 'jsonwebtoken'
 
-// Protege rutas: exige cookie con token válido; si no, responde 401.
+// Protege rutas: acepta el token en el encabezado Authorization (o en cookie, por compatibilidad).
 export default function requiereAdmin(req, res, next) {
   try {
-    req.admin = jwt.verify(req.cookies.token, process.env.JWT_SECRET)
+    const cab = req.headers.authorization || ''
+    const token = cab.startsWith('Bearer ') ? cab.slice(7) : req.cookies?.token
+    req.admin = jwt.verify(token, process.env.JWT_SECRET)
     next()
   } catch {
     res.status(401).json({ error: 'No autorizado' })

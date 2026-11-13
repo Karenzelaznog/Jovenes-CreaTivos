@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { pedir } from '../adminApi.js'
+import { pedir, guardarToken } from '../adminApi.js'
 
 export default function AdminLogin({ onOk }) {
   const [usuario, setUsuario] = useState('')
@@ -13,7 +13,8 @@ export default function AdminLogin({ onOk }) {
     setError('')
     setCargando(true)
     try {
-      await pedir('/api/auth/login', { metodo: 'POST', cuerpo: { usuario, clave } })
+            const r = await pedir('/api/auth/login', { metodo: 'POST', cuerpo: { usuario, clave } })
+      guardarToken(r.token)
       onOk()
     } catch (err) {
       setError(err.status === 401 ? 'Usuario o contraseña incorrectos.' : 'No pudimos conectar con el servidor.')

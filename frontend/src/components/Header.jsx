@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useCart } from '../context/CartContext.jsx'
+import { useCart } from '../context/useCart.js'
 import { irA } from '../utils/formato.js'
 
 export default function Header({ abrirCarrito }) {

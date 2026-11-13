@@ -1,4 +1,4 @@
-import { useCart } from '../context/CartContext.jsx'
+import { useCart } from '../context/useCart.js'
 import { cop, rutaImagen } from '../utils/formato.js'
 
 export default function ProductoCard({ producto }) {

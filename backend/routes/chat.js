@@ -26,48 +26,81 @@ function construirSistema() {
     .map((p) => `- ${p.categoria}${p.coleccion ? ' ' + p.coleccion.toUpperCase() : ''} | ${p.nombre} | ${cop(p.precio)} | ${p.descripcion}`)
     .join('\n')
 
-  return `Eres "Cinna", la asesora virtual de SKINCARY, una tienda colombiana de skincare y accesorios con estética azul pastel, nubes y estrellas.
+  return `Eres "JesChat", la asistente virtual de SKINCARY, una tienda colombiana de skincare y accesorios.
 
-TONO: cálido, tierno, juvenil y claro. Tutea. Máximo 1 emoji por respuesta (☁ ✦). Respuestas cortas: 2 a 4 frases. Texto plano, sin markdown ni asteriscos.
+TONO: amable, juvenil y claro. Tutea. Máximo 1 emoji por respuesta (☁ ✦). Respuestas cortas: 2 a 4 frases. Texto plano, sin markdown ni asteriscos.
 
 REGLAS:
+- Responde exclusivamente preguntas sobre SKINCARY, esta página, sus secciones, compras y productos.
+- Solo cuando el mensaje sea claramente ajeno a la página y a sus productos, responde: "Lo siento, solo puedo ayudar con preguntas sobre SKINCARY, la página y sus productos ☁". No contestes el tema ajeno.
+- Si una pregunta parece relacionada pero no hay información suficiente, dilo claramente y ofrece consultar por WhatsApp; no la trates como una pregunta ajena.
 - Recomienda SOLO productos del catálogo de abajo, con su nombre exacto y precio en pesos colombianos (COP).
 - Si piden algo que no está en el catálogo, dilo con amabilidad y ofrece la alternativa más cercana.
 - BASIC son los esenciales accesibles; PREMIUM son fórmulas avanzadas con detalles azul hielo y plateados.
 - No inventes ingredientes, resultados, descuentos, tiempos de envío ni promociones.
 - No des diagnósticos ni consejos médicos. Si hay irritación fuerte, alergia o condición de piel, sugiere consultar a un dermatólogo.
 - No pidas datos personales (nombre completo, teléfono, dirección). Eso se pide solo al finalizar el pedido.
-- Para comprar, indica que pueden agregar al carrito y finalizar el pedido por WhatsApp.
+- Para comprar, indica que pueden agregar productos al carrito y finalizar el pedido por WhatsApp. La página también ofrece entrega a domicilio o recoger en un punto de entrega; no inventes precios ni condiciones de entrega.
 - Si piden una rutina: limpiar, hidratar y proteger con SPF por la mañana.
-- Si preguntan algo ajeno a SKINCARY, responde breve y vuelve al tema de la tienda.
 
 CATÁLOGO DISPONIBLE:
 ${catalogo}`
 }
 
-// Respaldo gratis sin IA: busca productos por palabras clave del mensaje
+const normalizar = (texto) => texto.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+
+// Respaldo sin IA: contesta con datos confirmados o pide más contexto.
 function respuestaBasica(texto) {
-  const t = texto.toLowerCase()
-  const temas = [
-    [/sol|spf|protector|solar/, '%SPF%'],
-    [/limpi|espuma|lavar/, '%Limpi%'],
-    [/hidrat|crema|seca/, '%Hidrat%'],
-    [/labio|bálsamo|balsamo|lips/, '%Lips%'],
-    [/ojo|ojera|contorno/, '%Eyes%'],
-    [/mascarilla|mask|arcilla/, '%Mask%'],
-    [/serum|sérum|vitamina|manchas/, '%Serum%'],
-    [/tónico|tonico|toner/, '%Toner%'],
-    [/regalo|accesorio|cosmetiquera|kit|combo/, null],
+  const t = normalizar(texto)
+  if (/^(hola|holi|buenas|buenos dias|buenas tardes|buenas noches)\b/.test(t)) {
+    return '¡Hola! Soy JesChat, tu asistente de SKINCARY. Puedo ayudarte con la página y nuestros productos. ¿Qué te gustaría saber? ☁'
+  }
+
+  const productos = db
+    .prepare('SELECT nombre, precio, descripcion, categoria, coleccion FROM productos WHERE disponible = 1 ORDER BY categoria, numero')
+    .all()
+  const consultado = productos.find((p) => t.includes(normalizar(p.nombre)))
+  if (consultado) {
+    return `${consultado.nombre}: ${cop(consultado.precio)}. ${consultado.descripcion}`
+  }
+
+  const temasProducto = [
+    [/sol|spf|protector|solar/, /spf|protector solar/],
+    [/limpi|espuma|lavar|limpieza/, /limpiador|limpiadora|clean/],
+    [/hidrat|crema|seca/, /hidrat|crema/],
+    [/labio|balsamo|lips/, /labial|lips/],
+    [/ojo|ojera|contorno/, /eyes|ojos/],
+    [/mascarilla|mask|arcilla/, /mask|mascarilla|arcilla/],
+    [/serum|vitamina|manchas/, /serum|vitamin/],
+    [/tonico|toner/, /toner|tonico/],
+    [/regalo|accesorio|cosmetiquera|kit|combo|organizador/, null],
   ]
-  for (const [re, patron] of temas) {
-    const filas = patron
-      ? db.prepare('SELECT nombre, precio FROM productos WHERE nombre LIKE ? AND disponible = 1 LIMIT 3').all(patron)
-      : db.prepare("SELECT nombre, precio FROM productos WHERE categoria = 'accesorios' AND disponible = 1 LIMIT 3").all()
-    if (re.test(t) && filas.length) {
-      return `Te sugiero: ${filas.map((p) => `${p.nombre} (${cop(p.precio)})`).join(', ')}. Puedes agregarlos al carrito y finalizar tu pedido por WhatsApp ☁`
+  for (const [pregunta, producto] of temasProducto) {
+    if (pregunta.test(t)) {
+      const filas = productos
+        .filter((p) => producto
+          ? producto.test(normalizar(`${p.nombre} ${p.descripcion}`))
+          : p.categoria === 'accesorios')
+        .slice(0, 3)
+      if (filas.length) {
+        return `Estas opciones podrían servirte: ${filas.map((p) => `${p.nombre} (${cop(p.precio)})`).join(', ')}. Puedes agregarlas al carrito y finalizar el pedido por WhatsApp ☁`
+      }
     }
   }
-  return 'Ahora mismo estoy descansando un poquito ☁ Cuéntame si buscas limpiador, hidratante, protector solar, mascarilla o accesorios, y te sugiero algo de la tienda.'
+
+  if (/envio|entrega|domicilio|recoger|punto de entrega/.test(t)) {
+    return 'La página permite elegir entrega a domicilio o recoger en un punto de entrega al finalizar el pedido. No tengo información confirmada sobre costos o tiempos; puedes consultarlos por WhatsApp al hacer tu pedido.'
+  }
+  if (/pago|pagar|comprar|pedido|carrito|whatsapp/.test(t)) {
+    return 'Agrega los productos al carrito y continúa al checkout para completar tus datos y enviar el pedido por WhatsApp. La página ofrece entrega a domicilio o recoger en un punto de entrega.'
+  }
+  if (/precio|precios|cuesta|cuestan|vale|valen|catalogo|productos|tienda|skincary|pagina|web|coleccion|basic|premium|recomiend|rutina|piel|facial|skincare|belleza/.test(t)) {
+    return 'Puedo ayudarte con productos, precios y compras en SKINCARY. Dime el nombre del producto o qué tipo de producto buscas y te comparto las opciones disponibles.'
+  }
+  if (/capital|presidente|futbol|deporte|politica|programar|codigo|matematic|clima|pelicula|musica|historia|noticia/.test(t)) {
+    return 'Lo siento, solo puedo ayudar con preguntas sobre SKINCARY, la página y sus productos ☁'
+  }
+  return '¿Tu pregunta es sobre la página o algún producto de SKINCARY? Cuéntame un poco más y con gusto te ayudo.'
 }
 
 // POST /api/chat  { mensajes: [{ rol: 'user' | 'assistant', texto: '...' }] }
@@ -87,6 +120,14 @@ router.post('/', async (req, res) => {
   if (mensajes.length === 0) return res.status(400).json({ error: 'Escribe un mensaje.' })
 
   const ultimo = mensajes[mensajes.length - 1].texto
+
+  const preguntaNormalizada = normalizar(ultimo)
+  if (
+    /envio|entrega|domicilio|recoger|punto de entrega/.test(preguntaNormalizada) ||
+    /capital|presidente|futbol|deporte|politica|programar|codigo|matematic|clima|pelicula|musica|historia|noticia/.test(preguntaNormalizada)
+  ) {
+    return res.json({ respuesta: respuestaBasica(ultimo) })
+  }
 
   // Sin clave configurada: funciona igual con el respaldo gratis
   if (!process.env.GEMINI_API_KEY || !process.env.GEMINI_MODEL) {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { pedir } from '../adminApi.js'
 import { cop } from '../utils/formato.js'
 
@@ -15,13 +15,14 @@ export default function AdminProductos() {
   const [cargando, setCargando] = useState(true)
   const [aviso, setAviso] = useState({ tipo: '', texto: '' })
 
-  const avisar = (tipo, texto) => setAviso({ tipo, texto })
-  const fallo = (e) => avisar('error', e.status === 401 ? 'Tu sesión expiró. Recarga e inicia sesión.' : e.message)
+  const avisar = useCallback((tipo, texto) => setAviso({ tipo, texto }), [])
+  const fallo = useCallback((e) => avisar('error', e.status === 401 ? 'Tu sesión expiró. Recarga e inicia sesión.' : e.message), [avisar])
 
-  const cargar = () =>
+  const cargar = useCallback(() =>
     pedir('/api/productos').then(setLista).catch(fallo).finally(() => setCargando(false))
+  , [fallo])
 
-  useEffect(() => { cargar() }, [])
+  useEffect(() => { cargar() }, [cargar])
 
   const cambiar = (c) => (e) => setForm({ ...form, [c]: e.target.value })
 
